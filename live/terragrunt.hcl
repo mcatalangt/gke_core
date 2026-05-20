@@ -2,7 +2,7 @@ locals {
   gcp_project_id = get_env("GOOGLE_PROJECT_ID", "mi-proyecto-local-fallback")
   gcp_region     = get_env("GOOGLE_REGION", "us-central1")
   current_module = path_relative_to_include()
-  is_gke_cluster = strcontains(local.current_module, "gke-cluster")
+  is_gke_cluster = strcontains(local.current_module, "gke-base")
 }
 
 terraform {
