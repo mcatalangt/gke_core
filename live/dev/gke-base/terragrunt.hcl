@@ -1,7 +1,7 @@
 locals {
   gcp_project_id = get_env("GOOGLE_PROJECT_ID", "mi-proyecto-local-fallback")
   gcp_region = get_env("GOOGLE_REGION", "us-central1")
-  deploy_stack = get_env("TF_VAR_deploy_stack", "k8s-base")
+  deploy_stack = get_env("TARGET_ENV", "dev-k8s-base")
 }
 
 include "root" {
@@ -17,5 +17,5 @@ inputs = {
   project_id = "${local.gcp_project_id}"
   region   = "${local.gcp_region}"
   cluster_name = "${local.deploy_stack}"
-  environment =  "dev"
+  environment =  "${local.deploy_stack}"
 }

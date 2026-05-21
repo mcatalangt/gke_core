@@ -4,23 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: "Environment to deploy (dev, staging, prod)"
+        description: "Stack a desplegar (dev-k8s-base, stage-k8s-ha, production-k8s-ha-observability)"
         required: true
         default: 'dev'
         type: choice
         options:
           - dev
-          - staging
+          - stage
           - prod
-      deploy_stack:
-        description: 'Stack a desplegar'
-        required: true
-        type: choice
-        options:
-          - k8s-base
-          - k8s-HA
-          - k8s-HA-observability
-        default: 'k8s-base'
 
   push:
     branches: [ "main" ]
@@ -38,8 +29,7 @@ jobs:
       TARGET_ENV: ${{ inputs.environment || 'dev' }}
       GOOGLE_PROJECT_ID: ${{ vars.GCP_PROJECT }}
       GOOGLE_REGION: ${{ vars.GCP_REGION }}
-      # Determine value based on event type: if push, use default (e.g. k8s_only); if workflow_dispatch, respect choice input
-      TF_VAR_deploy_stack: "${{ github.event_name == 'push' && 'k8s-base' || inputs.deploy_stack }}"
+
 
     steps:
       - name: Checkout Repository
@@ -70,8 +60,8 @@ jobs:
                 terragrunt --version
 
       - name: Terragrunt Plan
-        run: cd live/desarrollo && terragrunt run-all plan --terragrunt-non-interactive --terragrunt-source-update
+        run: cd live/${{ env.TARGET_ENV }} && terragrunt run-all plan --terragrunt-non-interactive --terragrunt-source-update
 
       - name: Terragrunt Apply
         if: github.ref == 'refs/heads/main'
-        run: cd live/desarrollo && terragrunt run-all apply --terragrunt-non-interactive  --terragrunt-source-update
+        run: cd live/${{ env.TARGET_ENV }} && terragrunt run-all apply --terragrunt-non-interactive  --terragrunt-source-update

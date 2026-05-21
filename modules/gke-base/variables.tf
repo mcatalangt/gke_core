@@ -29,6 +29,24 @@ variable "deploy_rag_stack" {
   default     = "false"
 }
 
+variable "primary_node_count" {
+  description = "Número de nodos para el node pool principal"
+  type        = number
+  default     = 2
+}
+
+variable "primary_machine_type" {
+  description = "Tipo de máquina para el node pool principal"
+  type        = string
+  default     = "n1-standard-2"
+}
+
+variable "primary_disk_size_gb" {
+  description = "Tamaño del disco (GB) para el node pool principal"
+  type        = number
+  default     = 10
+}
+
 locals {
   deploy_rag_stack_bool = var.deploy_rag_stack == "true"
 }

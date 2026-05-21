@@ -33,11 +33,11 @@ resource "google_container_node_pool" "primary_nodes" {
   location = var.region
   cluster  = google_container_cluster.gke_cluster.name
 
-  node_count = 2
+  node_count = var.primary_node_count
 
   node_config {
-    machine_type = "n1-standard-2"
-    disk_size_gb = 20
+    machine_type = var.primary_machine_type
+    disk_size_gb = var.primary_disk_size_gb
 
     labels = {
       carga = "general"
