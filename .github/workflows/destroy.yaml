@@ -3,10 +3,15 @@ name: Destroy GKE
 on:
   workflow_dispatch:
     inputs:
-      confirm:
-        description: 'Escribe "destroy" para confirmar la eliminación de GKE'
+      environment:
+        description: "Stack a desplegar (dev-k8s-base, stage-k8s-ha, production-k8s-ha-observability)"
         required: true
-        default: 'destroy'
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - stage
+          - prod
 
 env:
   TARGET_ENV: ${{ inputs.environment || 'dev' }}
@@ -20,7 +25,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
-    if: github.event.inputs.confirm == 'destroy'
+#    if: github.event.inputs.confirm == 'destroy'
 
     steps:
       - name: Checkout Repository
@@ -51,6 +56,6 @@ jobs:
           terragrunt --version
 
       - name: Terragrunt Destroy
-        working-directory: live/desarrollo
+        working-directory: live/${{ env.TARGET_ENV }} 
         run: |
           terragrunt run-all destroy --terragrunt-non-interactive
