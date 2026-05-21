@@ -29,7 +29,7 @@ resource "google_container_cluster" "gke_cluster" {
 
 # Recurso: Node Pool 1
 resource "google_container_node_pool" "primary_nodes" {
-  name     = "${var.environment}-${var.cluster_name}-nodes-4"
+  name     = "${var.environment}-nodes-4"
   location = var.region
   cluster  = google_container_cluster.gke_cluster.name
 
@@ -48,7 +48,7 @@ resource "google_container_node_pool" "primary_nodes" {
 # Recurso: Node Pool 2 (GPU Spot)
 resource "google_container_node_pool" "secondary_nodes" {
   count    = local.deploy_rag_stack_bool ? 1 : 0
-  name     = "${var.environment}-${var.cluster_name}-gpu-nodes"
+  name     = "${var.environment}-gpu-nodes"
   location = var.region
   cluster  = google_container_cluster.gke_cluster.name
 
