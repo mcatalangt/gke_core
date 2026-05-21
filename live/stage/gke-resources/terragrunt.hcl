@@ -14,7 +14,7 @@ terraform {
 }
 
 dependency "gke" {
-  config_path = "../gke-base"
+  config_path = "../gke"
 
   mock_outputs = {
     cluster_endpoint       = "https://1.2.3.4"
