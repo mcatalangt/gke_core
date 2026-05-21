@@ -44,7 +44,7 @@ variable "primary_machine_type" {
 variable "primary_disk_size_gb" {
   description = "Tamaño del disco (GB) para el node pool principal"
   type        = number
-  default     = 10
+  default     = 20
 }
 
 locals {
