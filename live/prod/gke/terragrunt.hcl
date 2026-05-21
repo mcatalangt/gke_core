@@ -19,7 +19,7 @@ inputs = {
   environment          = "${local.deploy_stack}" 
   
   # === CONFIGURACIÓN DE ALTA DISPONIBILIDAD (HA) ===
-  primary_node_count   = 5                  # 3 nodos para tolerar fallos
-  primary_machine_type = "e2-standard-4"    # Máquinas más potentes
+  primary_node_count   = 4                  # 3 nodos para tolerar fallos
+  primary_machine_type = "e2-standard-2"    # Máquinas más potentes
   primary_disk_size_gb = 25                 # Más espacio en disco
 }
